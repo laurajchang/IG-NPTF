@@ -1,0 +1,25 @@
+Nested Sampling Global Log-Evidence           :   -0.256702007098526992E+05  +/-    0.153353640110253348E+00
+
+Local Mode Properties
+-------------------------------------------
+
+Total Modes Found:           1
+
+
+Mode   1
+Strictly Local Log-Evidence   -0.256702007098526992E+05 +/-    0.153353640110253348E+00
+Local Log-Evidence   -0.256702007098526992E+05 +/-    0.153353640110253348E+00
+
+Dim No.       Mean        Sigma
+   1    0.134462032420518653E+02    0.619835514681731301E-01
+   2    0.181782511418435877E+00    0.452285888129125152E-01
+
+Maximum Likelihood Parameters
+Dim No.        Parameter
+   1    0.134458104994689513E+02
+   2    0.180320860070908473E+00
+
+MAP Parameters
+Dim No.        Parameter
+   1    0.133837935112973625E+02
+   2    0.249379581150314389E+00

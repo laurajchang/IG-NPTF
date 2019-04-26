@@ -4,7 +4,6 @@ data/MC_inj_data.npy
 data/simPS/smoothedMaps/
 data/
 psf_dir
-chains
 slurm-*
 core*
 batch
