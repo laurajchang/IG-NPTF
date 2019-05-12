@@ -88,7 +88,7 @@ print("Using diffuse model ",diff)
 # Loop over bins and masks and get best-fit norms #
 ###################################################
 
-data_file_path = "/tigress/ljchang/NPTF_test/Bkg-Maps/fermi_data/"
+data_file_path = "/tigress/ljchang/NPTF-IG-Check/Bkg-Maps/fermi_data/"
 
 if mask_eighths:
 	print("Masking eighths!")
@@ -136,7 +136,9 @@ n.load_data(fermi_data, fermi_exposure)
 
 # Mask used in analysis
 
-ps_mask = np.load(data_file_path+'fermidata_pscmask.npy')
+# ps_mask = np.load(data_file_path+'fermidata_pscmask.npy')
+ps_mask = np.load('/tigress/ljchang/NPTF-IG-Check/data/mask_3fgl_0p8deg.npy')
+
 analysis_mask = analysis_mask_base + ps_mask
 
 analysis_mask = analysis_mask > 0 
@@ -147,13 +149,13 @@ n.add_template(dif, diff)
 n.add_template(iso, 'iso')
 n.add_template(psc, 'psc')
 n.add_template(bub, 'bub')
-n.add_template(dsk, 'dsk')
+# n.add_template(dsk, 'dsk')
 
 n.add_poiss_model(diff, '$A_\mathrm{dif}$', [0,20], False)
 n.add_poiss_model('iso', '$A_\mathrm{iso}$', [0,2], False)
 n.add_poiss_model('psc', '$A_\mathrm{psc}$', [0,2], False)
 n.add_poiss_model('bub', '$A_\mathrm{bub}$', [0,2], False)
-n.add_poiss_model('dsk', '$A_\mathrm{dsk}$', [0,2], False)
+# n.add_poiss_model('dsk', '$A_\mathrm{dsk}$', [0,2], False)
 
 n.configure_for_scan()
 
@@ -164,9 +166,10 @@ dif_temp = best_fit_params[0]*dif
 iso_temp = best_fit_params[1]*iso
 psc_temp = best_fit_params[2]*psc
 bub_temp = best_fit_params[3]*bub
-dsk_temp = best_fit_params[4]*dsk
+# dsk_temp = best_fit_params[4]*dsk
 
-best_fit_bkg = dif_temp+iso_temp+psc_temp+bub_temp+dsk_temp
+# best_fit_bkg = dif_temp+iso_temp+psc_temp+bub_temp+dsk_temp
+best_fit_bkg = dif_temp+iso_temp+psc_temp+bub_temp
 
 print(best_fit_params, np.sum(~analysis_mask*fermi_data), np.sum(~analysis_mask*best_fit_bkg))
 
@@ -178,6 +181,6 @@ np.save(save_dir + '/dif' + mask_tag + '.npy', dif_temp)
 np.save(save_dir + '/iso' + mask_tag + '.npy', iso_temp)
 np.save(save_dir + '/psc' + mask_tag + '.npy', psc_temp)
 np.save(save_dir + '/bub' + mask_tag + '.npy', bub_temp)
-np.save(save_dir + '/dsk' + mask_tag + '.npy', dsk_temp)
+# np.save(save_dir + '/dsk' + mask_tag + '.npy', dsk_temp)
 np.save(save_dir + '/best_fit_norms' + mask_tag + '.npy', best_fit_params)
 # np.save(save_dir + '/best_fit_bkg_ebin_' + str(ebin) + mask_tag + '.npy', best_fit_bkg)

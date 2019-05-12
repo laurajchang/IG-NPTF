@@ -10,44 +10,43 @@ batch1='''#!/bin/bash
 ##SBATCH --mail-type=end
 ##SBATCH --mail-user=ljchang@princeton.edu
 
-cd /tigress/ljchang/NPTF_test/Bkg-Maps
+cd /tigress/ljchang/NPTF-IG-Check/Bkg-Maps
 		'''
 
 #############################################
 # For getting best-fit Poissonian templates #
 #############################################
 
-work_dir = '/tigress/ljchang/NPTF_test/Bkg-Maps/'
+work_dir = '/tigress/ljchang/NPTF-IG-Check/Bkg-Maps/'
 
 # for model in ['B','C']:
 # for model in ['p6','p7','p8']:
 for model in ['p6']:
-	save_dir = '/templates_example/'
+	save_dir = '/templates_example/ps_mask_0.8deg/'
 
 	# Make save dir if it doesn't exist
 	if not os.path.exists(work_dir+save_dir):
 		os.makedirs(work_dir+save_dir)
 
 	band_vals = [2]
-	arb_ind = 0
 	for b in band_vals:
-		outer_vals = [30]
+		inner = 0
+		outer_vals = [15]
 		# outer_vals = [40]
 		for outer in outer_vals:
 			batch2 = 'mask_band='+str(1)+'\n'+'mask_ring='+str(1)+'\n'+ \
-						'mask_bandval='+str(b)+'\n'+'mask_outerval='+str(outer)+'\n'+ \
+						'mask_bandval='+str(b)+'\n'+'mask_outerval='+str(outer)+'\n'+'mask_innerval='+str(inner)+'\n'+\
 						'save_dir='+work_dir+save_dir+'\n'
 			batch3 = 'python make_fermi_background_example.py --mask_band $mask_band --mask_ring $mask_ring '
-			batch4 = '--mask_bandval $mask_bandval --mask_outerval $mask_outerval '
+			batch4 = '--mask_bandval $mask_bandval --mask_outerval $mask_outerval --mask_innerval $mask_innerval '
 			batch5 = '--save_dir $save_dir\n'
 			batchn = batch1+batch2+batch3+batch4+batch5
-			fname = './batch/make_bkg_b_'+str(b)+'_r_'+str(outer)+'_example.batch'
-			# fname = './batch/make_bkg_'+str(emin)+'_'+str(emax)+'_model'+diff+'.batch'
+			# fname = './batch/make_bkg_b_'+str(b)+'_r_'+str(outer)+'_example.batch'
+			fname = './batch/make_bkg_b_'+str(b)+'_r_'+str(inner)+'_'+str(outer)+'_example.batch'
 			f=open(fname, "w")
 			f.write(batchn)
 			f.close()
 			os.system("sbatch "+fname);
-			arb_ind += 1
 
 # work_dir = '/tigress/smsharma/Fermi-SmoothGalHalo/DataFiles/Bkg-Maps/'
 
